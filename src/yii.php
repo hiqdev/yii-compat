@@ -65,4 +65,9 @@ class yii {
     {
         return class_exists(Yii3::class) ? \yii\di\Reference::to($id) : $id;
     }
+
+    public static function newArrayCache()
+    {
+        return class_exists(Yii3::class) ? new \yii\cache\ArrayCache() : new \yii\caching\ArrayCache();
+    }
 }
