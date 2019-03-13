@@ -31,9 +31,9 @@ class yii {
         return class_exists(Yii3::class) ? Yii3::getContainer() : Yii2::$container;
     }
 
-    public static function createObject($class, $args)
+    public static function createObject($class, array $params = [])
     {
-        return class_exists(Yii3::class) ? Yii3::createObject($class, $args) : Yii2::createObject($class, $args);
+        return class_exists(Yii3::class) ? Yii3::createObject($class, $params) : Yii2::createObject($class, $params);
     }
 
     public static function getAlias($alias, $throwException = true)
