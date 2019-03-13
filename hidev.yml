@@ -1,0 +1,5 @@
+package:
+    type:       project
+    name:       yii-compat
+    title:      Yii 2/3 compatibility crutch
+    keywords:   yii, compat
