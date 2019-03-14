@@ -31,6 +31,11 @@ class yii {
         return class_exists(Yii3::class) ? Yii3::getContainer() : Yii2::$container;
     }
 
+    public static function getLogger()
+    {
+        return class_exists(Yii3::class) ? Yii3::get('logger') : Yii2::getLogger();
+    }
+
     public static function createObject($class, array $params = [])
     {
         return class_exists(Yii3::class) ? Yii3::createObject($class, $params) : Yii2::createObject($class, $params);
