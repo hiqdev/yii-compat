@@ -4,6 +4,7 @@ namespace hiqdev\yii\compat;
 
 use Yii as Yii2;
 use yii\helpers\Yii as Yii3;
+use yii\mutex\FileMutex;
 
 class yii {
     public static function is2()
@@ -74,5 +75,10 @@ class yii {
     public static function newArrayCache()
     {
         return class_exists(Yii3::class) ? new \yii\cache\ArrayCache() : new \yii\caching\ArrayCache();
+    }
+
+    public static function newFileMutex()
+    {
+        return class_exists(Yii3::class) ? new FileMutex(static::getAlias('@runtime/mutex')) : new FileMutex();
     }
 }
