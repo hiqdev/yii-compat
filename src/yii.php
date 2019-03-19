@@ -37,6 +37,11 @@ class yii {
         return class_exists(Yii3::class) ? Yii3::get('logger') : Yii2::getLogger();
     }
 
+    public static function setLocale($locale)
+    {
+        return class_exists(Yii3::class) ? Yii3::getApp()->setLocale($locale) : Yii2::$app->language = $locale;
+    }
+
     public static function createObject($class, array $params = [])
     {
         return class_exists(Yii3::class) ? Yii3::createObject($class, $params) : Yii2::createObject($class, $params);
