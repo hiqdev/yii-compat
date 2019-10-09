@@ -64,7 +64,7 @@ class yii {
 
     public static function classKey()
     {
-        return class_exists(Yii3::class) ? '__class' : 'class';
+        return method_exists(Yii2::class, 'autoload') ? 'class' : '__class';
     }
 
     public static function referenceTo($id)
