@@ -4,12 +4,18 @@ namespace hiqdev\yii\compat;
 
 use Yii as Yii2;
 use yii\helpers\Yii as Yii3;
+use yii\profile\Target;
 use yii\mutex\FileMutex;
 
 class yii {
     public static function is2()
     {
         return !class_exists(Yii3::class);
+    }
+
+    public static function is2v3()
+    {
+        return class_exists(Target::class);
     }
 
     public static function is3()
@@ -64,7 +70,7 @@ class yii {
 
     public static function classKey()
     {
-        return method_exists(Yii2::class, 'autoload') ? 'class' : '__class';
+        return class_exists(Target::class) || class_exists(Yii3::class) ? '__class' : 'class';
     }
 
     public static function referenceTo($id)
