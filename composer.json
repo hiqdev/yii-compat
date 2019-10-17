@@ -51,6 +51,11 @@
             "hiqdev\\yii\\compat\\": "src"
         }
     },
+    "extra": {
+        "config-plugin": {
+            "common": "config/common.php"
+        }
+    },
     "repositories": [
         {
             "type": "composer",
