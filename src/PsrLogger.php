@@ -20,7 +20,13 @@ class PsrLogger implements \Psr\Log\LoggerInterface
 
     public function log($level, $message, array $context = [])
     {
-        $this->logger->log($message, $this->convertLevel($level), $context);
+        if ($context === []) {
+            $resultMessage = $message;
+        } else {
+            $resultMessage = array_merge(['message' => $message], $context);
+        }
+
+        $this->logger->log($resultMessage, $this->convertLevel($level));
     }
 
     private function convertLevel(string $string): int
