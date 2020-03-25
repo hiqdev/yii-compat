@@ -23,4 +23,9 @@ class PsrContainer implements \Psr\Container\ContainerInterface
     {
         return $this->container->has($id);
     }
+
+    public function invoke(callable $callback, $params = [])
+    {
+        return $this->container->invoke($callback, $params);
+    }
 }
