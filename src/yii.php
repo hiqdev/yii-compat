@@ -50,15 +50,15 @@ class yii
         return $container instanceof ContainerInterface ? $container : new PsrContainer($container);
     }
 
-    public static function getPsrLogger($container)
+    public static function getPsrLogger($container = null)
     {
         return self::is3() ? $container->get('logger') : new PsrLogger(Yii2::getLogger());
     }
 
-    public static function getPsrCache($container)
+    public static function getPsrCache($container = null)
     {
-        $cache = $container->get('cache');
-        return self::is3() ? $cache : new PsrCache($cache);
+        $cache = ($container ?? self::getContainer())->get('cache');
+        return self::is3() ?  : new PsrCache($cache);
     }
 
     public static function getLogger()
