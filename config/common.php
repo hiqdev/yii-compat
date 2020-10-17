@@ -1,6 +1,8 @@
 <?php
 
-return hiqdev\yii\compat\yii::is3() ? [
+use hiqdev\yii\compat\Buildtime;
+
+return Buildtime::run(hiqdev\yii\compat\yii::is3()) ? [
     \Psr\Log\LoggerInterface::class => function ($container) {
         return \hiqdev\yii\compat\yii::getLogger($container);
     },
