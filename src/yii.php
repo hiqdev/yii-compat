@@ -10,39 +10,45 @@ use Psr\Container\ContainerInterface;
 
 class yii
 {
-    private static $isYii3;
+    private static $isYii2;
+    private static $container;
 
     public static function is2()
     {
-        if (self::$isYii3 === null) {
-            self::$isYii3 = class_exists(Reference::class);
+        if (self::$isYii2 === null) {
+            self::$isYii2 = class_exists(Yii2::class);
         }
 
-        return !self::$isYii3;
+        return self::$isYii2;
     }
 
     public static function is3()
     {
-        if (self::$isYii3 === null) {
-            self::$isYii3 = class_exists(Reference::class);
+        if (self::$isYii2 === null) {
+            self::$isYii2 = class_exists(Yii2::class);
         }
 
-        return self::$isYii3;
+        return !self::$isYii2;
     }
 
     public static function get($name)
     {
-        return self::is3() ? Yii3::get($name) : Yii2::$container->get($name);
+        return self::getContainer()->get($name);
     }
 
     public static function getApp()
     {
-        return self::is3() ? Yii3::getApp() : Yii2::$app;
+        return self::is3() ? self::get('app') : Yii2::$app;
+    }
+
+    public static function setContainer($container)
+    {
+        return self::is3() ? self::$container = $container : Yii2::$container = $container;
     }
 
     public static function getContainer()
     {
-        return self::is3() ? Yii3::getContainer() : Yii2::$container;
+        return self::is3() ? self::$container : Yii2::$container;
     }
 
     public static function getPsrContainer($container)
