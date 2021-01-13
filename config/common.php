@@ -3,12 +3,9 @@
 use hiqdev\yii\compat\Buildtime;
 
 return Buildtime::run(hiqdev\yii\compat\yii::is3()) ? [
-    \Psr\Log\LoggerInterface::class => function ($container) {
+    \Psr\Log\LoggerInterface::class => function (\Psr\Container\ContainerInterface $container) {
         return \hiqdev\yii\compat\yii::getLogger($container);
-    },
-    \Psr\Container\ContainerInterface::class => function ($container) {
-        return $container;
-    },
+    }
 ] : [
     'container' => [
         'singletons' => [
