@@ -2,11 +2,23 @@
 
 namespace hiqdev\yii\compat;
 
+use Psr\Log\LogLevel;
 use yii\log\Logger;
 
 class PsrLogger implements \Psr\Log\LoggerInterface
 {
     use \Psr\Log\LoggerTrait;
+
+    private const MAP = [
+        LogLevel::EMERGENCY => Logger::LEVEL_ERROR,
+        LogLevel::ALERT     => Logger::LEVEL_ERROR,
+        LogLevel::CRITICAL  => Logger::LEVEL_ERROR,
+        LogLevel::ERROR     => Logger::LEVEL_ERROR,
+        LogLevel::WARNING   => Logger::LEVEL_WARNING,
+        LogLevel::NOTICE    => Logger::LEVEL_INFO,
+        LogLevel::INFO      => Logger::LEVEL_INFO,
+        LogLevel::DEBUG     => Logger::LEVEL_TRACE,
+    ];
 
     /**
      * @var Logger
@@ -29,16 +41,8 @@ class PsrLogger implements \Psr\Log\LoggerInterface
         $this->logger->log($resultMessage, $this->convertLevel($level));
     }
 
-    private function convertLevel(string $string): int
+    private function convertLevel(string $logLevel): int
     {
-        if ($string === 'debug') {
-            return Logger::LEVEL_TRACE;
-        } elseif ($string === 'info') {
-            return Logger::LEVEL_INFO;
-        } elseif ($string === 'info') {
-            return Logger::LEVEL_WARNING;
-        }
-
-        return Logger::LEVEL_ERROR;
+        return self::MAP[$logLevel] ?? $logLevel;
     }
 }
