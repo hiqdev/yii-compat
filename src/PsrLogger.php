@@ -30,7 +30,7 @@ class PsrLogger implements \Psr\Log\LoggerInterface
         $this->logger = $logger;
     }
 
-    public function log($level, $message, array $context = [])
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         if ($context === []) {
             $resultMessage = $message;
