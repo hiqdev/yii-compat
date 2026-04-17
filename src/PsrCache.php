@@ -1,59 +1,60 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace hiqdev\yii\compat;
 
+use Psr\SimpleCache\CacheInterface;
 use yii\caching\Cache;
 
-class PsrCache implements \Psr\SimpleCache\CacheInterface
+readonly class PsrCache implements CacheInterface
 {
-    /**
-     * @var Cache
-     */
-    private $cache;
-
-    public function __construct(Cache $cache)
+    public function __construct(private Cache $cache)
     {
-        $this->cache = $cache;
     }
 
-    public function get($key, $default = null)
+    public function get($key, $default = null): mixed
     {
         return $this->cache->get($key) ?: $default;
     }
 
-    public function set($key, $value, $ttl = null)
+    public function set($key, $value, $ttl = null): bool
     {
         return $this->cache->set($key, $value, $ttl);
     }
 
-    public function delete($key)
+    public function delete($key): bool
     {
         return $this->cache->delete($key);
     }
 
-    public function clear()
+    public function clear(): bool
     {
         return $this->cache->flush();
     }
 
-    public function getMultiple($keys, $default = null)
+    public function getMultiple($keys, $default = null): iterable
     {
         return $this->cache->multiGet($keys);
     }
 
-    public function setMultiple($values, $ttl = null)
+    public function setMultiple($values, $ttl = null): bool
     {
-        return $this->cache->multiSet($values, $ttl);
+        if ($values instanceof \Traversable) {
+            $values = iterator_to_array($values);
+        }
+
+        $failedKeys = $this->cache->multiSet($values, $ttl);
+
+        return is_array($failedKeys) ? $failedKeys === [] : (bool)$failedKeys;
     }
 
-    public function deleteMultiple($keys)
+    public function deleteMultiple($keys): bool
     {
         foreach ($keys as $key) {
             $this->cache->delete($key);
         }
     }
 
-    public function has($key)
+    public function has($key): bool
     {
         return $this->cache->exists($key);
     }
